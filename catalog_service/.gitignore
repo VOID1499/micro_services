@@ -1,0 +1,19 @@
+# Dependencias de Node
+**/node_modules/
+
+# Variables de entorno
+**/.env
+**/.env.*
+
+# Builds
+**/dist/
+**/build/
+
+# Cobertura de tests
+**/coverage/
+
+# Logs
+**/*.log
+
+# Archivos temporales
+**/.DS_Store
