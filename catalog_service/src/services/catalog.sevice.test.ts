@@ -2,7 +2,9 @@ import { CatalogService } from "./catalog.service.js";
 import type { CatalogRepositoryInterface } from "../interfaces/catalog.repository.interface.js";
 import type { Product } from "../models/product.model.js";
 import { faker } from "@faker-js/faker";
-import { CatalogRepository } from "../repository/catalog.repository.js";
+import { productFactory } from "../fatories/product.factory.js";
+
+
 
 const mockProduct = (rest?:any)=>{
     return {
@@ -99,13 +101,74 @@ describe("CatalogService", () => {
 
       mockCatalogRepository.update.mockResolvedValue(requestBody);
 
-      expect(mockCatalogRepository.update).toHaveBeenCalledWith(requestBody);
       await expect(catalogService.updateProduct(requestBody)).resolves.toMatchObject(requestBody);
+      expect(mockCatalogRepository.update).toHaveBeenCalledWith(requestBody);
     });
-    
+
+
+    test("deberia lanzar un error", async ()=>{
+
+       const requestBody = mockProduct({
+        id: faker.number.int({ min: 1, max: 1000 })
+      });
+
+      jest.spyOn(mockCatalogRepository,"update").mockRejectedValue(new Error("el producto no existe"));
+
+      await expect(catalogService.updateProduct(requestBody)).rejects.toThrow("el producto no existe");
+
+    })
+
   });
 
+
+  describe("casos de prueba para getProductos",()=>{
+
+
+    test("deberia devolver un arreglo con productos",async ()=>{
+
+
+      const randomLimit = faker.number.int({min:10,max:50});
+      const offSet = 0;
+
+      const mockProducts = productFactory.buildList(randomLimit)
+      jest.spyOn(mockCatalogRepository,"find").mockResolvedValue(mockProducts)
+
+      const data = await catalogService.getProducts(randomLimit,offSet);
+
+      expect(data.length).toEqual(randomLimit);
+      expect(data).toMatchObject(mockProducts)
+
+    });
+
+
+    test("deberia lanzarse un error al tratar de devolver los productos",async()=>{
+
+      jest.spyOn(mockCatalogRepository,"find")
+      .mockRejectedValue(new Error("error al buscar productos"))
+
+      await expect(catalogService.getProducts(0,0)).rejects.toThrow("error al buscar productos")
+
+    });
+
+  });
   
+
+
+  describe("casos de prueba para getProduct",()=>{
+
+    test("deberia obtener un producto por id",async ()=>{
+      const mockProductFactory = productFactory.build();
+      jest.spyOn(mockCatalogRepository,"findOne")
+      .mockResolvedValue(mockProductFactory)
+      const result = await catalogService.getProduct(mockProductFactory.id!);
+
+      expect(result).toMatchObject(mockProductFactory);
+    })
+
+    
+
+
+  });
 
 
 

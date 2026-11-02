@@ -22,10 +22,16 @@ export class CatalogService {
         return data;
     }
 
-    getProducts(limit:number,offset:number){}
+    async getProducts(limit:number,offset:number):Promise<any[]>{
+        const data = await this.catalogRepository.find(limit,offset)
+        return data
+    }
 
-    getProduct(id:number){}
+    async getProduct(id:number){
+        const data = await this.catalogRepository.findOne(id);
+        return data;
+    }
 
-    deleteProduct(id:number){}
+    async deleteProduct(id:number){}
 
 }
