@@ -32,6 +32,9 @@ export class CatalogService {
         return data;
     }
 
-    async deleteProduct(id:number){}
+    async deleteProduct(id:number){
+        const data = await this.catalogRepository.delete(id);
+        return data;
+    }
 
 }

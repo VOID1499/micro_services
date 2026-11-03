@@ -134,7 +134,6 @@ describe("CatalogService", () => {
       jest.spyOn(mockCatalogRepository,"find").mockResolvedValue(mockProducts)
 
       const data = await catalogService.getProducts(randomLimit,offSet);
-
       expect(data.length).toEqual(randomLimit);
       expect(data).toMatchObject(mockProducts)
 
@@ -169,6 +168,26 @@ describe("CatalogService", () => {
 
 
   });
+
+
+  describe("casos de de prueba para deletProduct",()=>{
+
+    test("deberia eliminar un producto y retornarlo", async()=>{
+
+      const mockProductFactory = productFactory.build();
+
+      jest.spyOn(mockCatalogRepository,"delete")
+      .mockResolvedValue(mockProductFactory)
+
+      const data = await catalogService.deleteProduct(mockProductFactory.id!);
+
+      expect(data).toMatchObject(mockProductFactory);
+
+
+
+    });
+
+  })
 
 
 
