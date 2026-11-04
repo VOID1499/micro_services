@@ -8,3 +8,11 @@ export const productFactory = new Factory<Product>()
   .attr("description", () => faker.commerce.productDescription())
   .attr("price", () => +faker.commerce.price())
   .attr("stock", () => faker.number.int({ min: 1, max: 100 }));
+
+
+  export const mockProduct = {
+    name:faker.commerce.productName(),
+    descrption:faker.commerce.productDescription(),
+    price:faker.commerce.price(),
+    stock:faker.number.int({min:1,max:100})
+  }

@@ -3,7 +3,7 @@ import express from "express";
 import { faker } from "@faker-js/faker";
 import catalogRoutes , { catalogService } from "./catalog.routes.js";
 import { CatalogService } from "../../services/catalog.service.js";
-import { productFactory } from "../../fatories/product.factory.js";
+import { productFactory ,mockProduct } from "../../fatories/product.factory.js";
 
 const app = express();
 
@@ -33,7 +33,6 @@ describe("catalog routes suite",()=>{
 
 
         test("deberia crear un producto",async()=>{
-
             
             const requestBody = productFactory.build();
             
@@ -50,6 +49,19 @@ describe("catalog routes suite",()=>{
             expect(response.body).toEqual(requestBody)
         });
 
+        test("deberia validar los datos de entrada del endpoint", async ()=>{
+
+            const requestBody = mockProduct;
+
+            const response = await request(app)
+            .post("/")
+            .set("Accept","aplication/json")
+            .send({...requestBody,name:""})
+
+            expect(response.status).toBe(400)
+
+
+        })
 
     });
 
