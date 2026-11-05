@@ -49,17 +49,33 @@ describe("catalog routes suite",()=>{
             expect(response.body).toEqual(requestBody)
         });
 
-        test("deberia validar los datos de entrada del endpoint", async ()=>{
+        test("deberia lanzar un error cuando falten parametros del request body", async ()=>{
+
 
             const requestBody = mockProduct;
 
             const response = await request(app)
             .post("/")
-            .set("Accept","aplication/json")
+            .set("Accepts","aplication/json")
             .send({...requestBody,name:""})
-
+            
             expect(response.status).toBe(400)
 
+
+        });
+
+        test("deberia lanzar un internal server error",async()=>{
+
+            jest.spyOn(catalogService,"createProduct")
+            .mockRejectedValue(new Error("error al crear producto"))
+
+            const response = await request(app)
+            .post("/")
+            .set("Accepts","aplication/json")
+            .send({})
+
+            expect(response.status).toBe(500)
+            expect(response.body).toBe("internal server error");
 
         })
 
