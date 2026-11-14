@@ -12,7 +12,7 @@ export const productFactory = new Factory<Product>()
 
   export const mockProduct = {
     name:faker.commerce.productName(),
-    descrption:faker.commerce.productDescription(),
+    description:faker.commerce.productDescription(),
     price:faker.commerce.price(),
     stock:faker.number.int({min:1,max:100})
   }

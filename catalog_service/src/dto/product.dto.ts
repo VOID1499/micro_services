@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 
 export class CreateProductRequest {
 
@@ -11,3 +11,22 @@ export class CreateProductRequest {
     stock:number;
 
 }
+
+
+export class UpdateProductoRequest {
+
+    @IsOptional()
+    @IsString()
+    name?:string;
+
+    @IsOptional()
+    @IsString()
+    description?:string;
+    
+    @IsOptional()
+    price?:number;
+
+    @IsOptional()
+    stock?:number;
+
+} 

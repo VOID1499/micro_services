@@ -1,7 +1,9 @@
 import { Router } from "express";
 
 //importar resto de rutas
-import catalogRoutes from "./catalog.routes.js"
+import { createCatalogRoutes } from "./catalog.routes.js"
+import { CatalogService } from "../../services/catalog.service.js";
+import { CatalogRepository } from "../../repository/catalog.repository.js";
 
 export class AppRoutes{
     constructor(){}
@@ -14,7 +16,7 @@ export class AppRoutes{
             res.send("Hola mundo!")
         });
 
-        router.use("/api/products",catalogRoutes);
+        router.use("/api/products",createCatalogRoutes(new CatalogService(new CatalogRepository)));
 
         return router;
     }

@@ -1,4 +1,5 @@
 import type { CatalogRepositoryInterface } from "../interfaces/catalog.repository.interface.js";
+import type { Product } from "../models/product.model.js";
 
 export class CatalogService {
 
@@ -27,12 +28,12 @@ export class CatalogService {
         return data
     }
 
-    async getProduct(id:number){
+    async getProduct(id: number): Promise<Product | null> {
         const data = await this.catalogRepository.findOne(id);
         return data;
     }
 
-    async deleteProduct(id:number){
+    async deleteProduct(id:number): Promise<Number>{
         const data = await this.catalogRepository.delete(id);
         return data;
     }

@@ -17,3 +17,7 @@
 
 # Archivos temporales
 **/.DS_Store
+
+
+# Archivos temporales
+**/db/
